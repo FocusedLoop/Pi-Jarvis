@@ -1,0 +1,4 @@
+{
+    "devices": [ "192.168.0.147" ],
+    "commands": [ "DEVICE STATUS", "DEVICE ON", "DEVICE OFF", "DEVICE RESTART" ]
+}
