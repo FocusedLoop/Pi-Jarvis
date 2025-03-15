@@ -7,6 +7,7 @@
 struct ButtonConfig {
     std::string label = "C";
     std::string type = "esp32";
+    int command = 0;
     int margin = 10;
     int width = 100;
     int height = 50;

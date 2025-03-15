@@ -1,7 +1,6 @@
 #include "PiJ.h"
 #include "Button.h"
 #include "CommandMapping.h"
-#include "DeviceConnect.h"
 
 MyButton::MyButton(const ButtonConfig& config) : paired_button(nullptr), config(config)
 {
@@ -22,16 +21,17 @@ void MyButton::pair_with(MyButton* other_button, bool disable_other)
 
 void MyButton::on_button_clicked()
 {
+    CommandMapping command_map;
     std::cout << "Button clicked: " << get_label() << std::endl;
     
 	if (config.type == "esp32")
     {
-        std::cout << parse_command(1) << std::endl;
+        std::cout << command_map.ESP32Connection(config.command) << std::endl;
 	}
-	else if (config.type == "ssh")
-	{
-        test_ssh();
-	}
+    else if (config.type == "ssh")
+    {
+        std::cout << command_map.SSHConnection() << std::endl;
+    }
     
     set_sensitive(false);
     if (paired_button)

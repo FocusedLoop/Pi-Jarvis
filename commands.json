@@ -1,4 +1,21 @@
 {
-    "devices": [ "192.168.0.147" ],
-    "commands": [ "DEVICE STATUS", "DEVICE ON", "DEVICE OFF", "DEVICE RESTART" ]
+    "esp32": {
+        "ip": "192.168.0.223",
+        "commands": [
+            "DEVICE STATUS",
+            "DEVICE ON",
+            "DEVICE OFF",
+            "DEVICE RESTART"
+        ]
+    },
+    "ssh": {
+        "ip": "192.168.0.194",
+        "port":  22,
+        "user": "",
+        "password": "",
+        "commands": [
+            "ls",
+            "nvidia-smi"
+        ]
+    }
 }

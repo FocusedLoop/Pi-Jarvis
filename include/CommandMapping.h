@@ -3,6 +3,11 @@
 
 #include <string>
 
-std::string parse_command(const u_int8_t command);
+class CommandMapping
+{
+public:
+	std::string ESP32Connection(const u_int8_t command);
+	std::string SSHConnection();
+};
 
 #endif
