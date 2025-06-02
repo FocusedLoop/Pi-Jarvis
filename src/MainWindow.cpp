@@ -65,7 +65,7 @@ MainWindow::MainWindow()
 
 
 
-// RE DO THIS, I HATE THIS CHATGPT SHIT
+// RE DO THIS, I HATE THIS SHITTY WORK AROUND
 // Custom List Factory Implementation
 Glib::RefPtr<Gtk::SignalListItemFactory> MainWindow::create_list_factory()
 {
