@@ -1,13 +1,32 @@
 #include "PiJ.h"
 #include "CommandMapping.h"
 
-// Read json
-Json::Value read_json(const char* device)
+// Read JSON from disk
+const Json::Value& commands_root()
 {
-	Json::Value root;
-	std::ifstream file("commands.json");
-	file >> root;
-	return root[device];
+	static Json::Value root = [] {
+		Json::Value value;
+		std::ifstream file("commands.json");
+		if (!file) {
+			throw std::runtime_error("Failed to open commands.json");
+		}
+
+		file >> value;
+		printf("JSON File Read\n");
+		return value;
+	}();
+	return root;
+}
+
+// Get JSON from Memory
+const Json::Value& CommandMapping::read_config(const char* command)
+{
+	static const Json::Value& root = commands_root();
+	if (command == nullptr) {
+		return root;
+	}
+
+	return root[command];
 }
 
 // Send http
@@ -29,7 +48,7 @@ int handle_http(const char* url, const char* command)
 // Parse ESP32 commands
 std::string CommandMapping::ESP32Connection(const u_int8_t command)
 {
-	Json::Value root = read_json("esp32");
+	Json::Value root = read_config("esp32");
 
     const char* device_ip = root["ip"].asCString();
     const char* device_command = root["commands"][command].asCString();
@@ -41,7 +60,7 @@ std::string CommandMapping::ESP32Connection(const u_int8_t command)
 // Parse SHH commands
 std::string CommandMapping::SSHConnection()
 {
-	Json::Value root = read_json("ssh");
+	Json::Value root = read_config("ssh");
 
 	ssh_session my_ssh_session;
 	int rc;
