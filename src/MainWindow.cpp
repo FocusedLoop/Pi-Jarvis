@@ -5,8 +5,10 @@
 
 MainWindow::MainWindow()
 {
-    set_title("Hello gtk4mm");
+    set_title("Pi Jarvis");
     set_default_size(600, 600);
+    char* widget1 = "Toggle Power";
+    char* widget2 = "Device Monitor";
 
     // Main Layout 
     m_main_box.set_orientation(Gtk::Orientation::HORIZONTAL);
@@ -21,7 +23,7 @@ MainWindow::MainWindow()
     m_sidebar_label.set_margin(10);
     m_sidebar_label.set_xalign(0.0);
 
-    auto list_store = Gtk::StringList::create({ "Toggle", "Devices" });
+    auto list_store = Gtk::StringList::create({ widget1, widget2 });
     auto selection = Gtk::SingleSelection::create(list_store);
     auto list_view = Gtk::make_managed<Gtk::ListView>(selection, create_list_factory());
 
@@ -40,9 +42,9 @@ MainWindow::MainWindow()
     auto toggle_widget = Gtk::make_managed<ToggleWidget>();
     auto device_widget = Gtk::make_managed<DeviceWidget>();
 
-    m_stack.add(*toggle_widget, "Toggle");
-    m_stack.add(*device_widget, "Devices");
-    m_stack.set_visible_child("Toggle");
+    m_stack.add(*toggle_widget, widget1);
+    m_stack.add(*device_widget, widget2);
+    m_stack.set_visible_child(widget1);
 
     selection->property_selected().signal_changed().connect(
         [this, selection, list_store]() {
@@ -62,10 +64,7 @@ MainWindow::MainWindow()
 }
 
 
-
-
-
-// RE DO THIS, I HATE THIS CHATGPT SHIT
+// RE DO THIS
 // Custom List Factory Implementation
 Glib::RefPtr<Gtk::SignalListItemFactory> MainWindow::create_list_factory()
 {

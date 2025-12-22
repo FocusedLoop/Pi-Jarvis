@@ -22,7 +22,7 @@ const Json::Value& commands_root()
 const Json::Value& CommandMapping::read_config(const char* command)
 {
 	static const Json::Value& root = commands_root();
-	if (command == nullptr) {
+	if (command == NULL) {
 		return root;
 	}
 
