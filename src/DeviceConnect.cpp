@@ -8,7 +8,8 @@
 
 int test_ssh() {
     ssh_session session = ssh_new();
-    if (session == nullptr) {
+    if (session == nullptr)
+    {
         std::cerr << "Failed to create SSH session" << std::endl;
         return 1;
     }

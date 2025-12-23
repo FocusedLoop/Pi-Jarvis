@@ -2,6 +2,8 @@
 #include "DeviceWidget.h"
 #include "Button.h"
 
+// TODO: Add status indicators for device and SSH connection states
+
 namespace {
     ButtonConfig MakeEnableSshButtonConfig() {
         ButtonConfig button;

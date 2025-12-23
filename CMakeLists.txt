@@ -21,7 +21,7 @@ add_executable(test
     src/MainWindow.cpp
     src/DeviceWidget.cpp
     
-)
+ "src/ConnectionState.cpp" "include/ConnectionState.h")
 
 include_directories(include)
 

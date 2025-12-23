@@ -1,5 +1,6 @@
 #include "PiJ.h"
 #include "CommandMapping.h"
+#include "ConnectionState.h"
 
 // Read JSON from disk
 const Json::Value& commands_root()
@@ -41,7 +42,14 @@ int handle_http(const char* url, const char* command)
     curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
 
     CURLcode res = curl_easy_perform(curl);
-    curl_easy_cleanup(curl);
+
+	long http_code = 0;
+	if (res == CURLE_OK) { curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code); }
+
+	curl_easy_cleanup(curl);
+
+	if (res != CURLE_OK) { return -2; }
+	if (http_code < 200 || http_code >= 300) { return -3; }
     return 0;
 }
 
@@ -52,8 +60,13 @@ std::string CommandMapping::ESP32Connection(const u_int8_t command)
 
     const char* device_ip = root["ip"].asCString();
     const char* device_command = root["commands"][command].asCString();
+
     std::string url = "http://" + std::string(device_ip);
-	handle_http(url.c_str(), device_command);
+	int rc = handle_http(url.c_str(), device_command);
+
+	if (rc == 0) { ConnectionState::instance().set_esp32_status(ConnectionStatus::CONNECTED); }
+	else { ConnectionState::instance().set_ssh_status(ConnectionStatus::DISCONNECTED); }
+
     return "\n" + url + " " + device_command;
 }
 
@@ -80,20 +93,24 @@ std::string CommandMapping::SSHConnection()
 	if (rc != SSH_OK)
 	{
 		fprintf(stderr, "Error connecting: %s\n", ssh_get_error(my_ssh_session));
+		ConnectionState::instance().set_ssh_status(ConnectionStatus::DISCONNECTED);
 		ssh_free(my_ssh_session);
-		return 0;
+		return "ssh no_connection";
 	}
 
 	ssh_userauth_password(my_ssh_session, NULL, password);
 	if (rc != SSH_AUTH_SUCCESS) {
 		fprintf(stderr, "Error authenticating with password: %s\n", ssh_get_error(my_ssh_session));
+		ConnectionState::instance().set_ssh_status(ConnectionStatus::DISCONNECTED);
 		ssh_disconnect(my_ssh_session);
 		ssh_free(my_ssh_session);
-		return 0;
+		return "ssh no_connection";
 	}
 
+	ConnectionState::instance().set_ssh_status(ConnectionStatus::CONNECTED);
 	printf("SSH Connection Successful\n");
 	ssh_disconnect(my_ssh_session);
 	ssh_free(my_ssh_session);
+
 	return "ssh " + std::string(user) + "@" + ip;
 }

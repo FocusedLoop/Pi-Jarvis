@@ -5,16 +5,16 @@
 
 class MainWindow : public Gtk::Window
 {
-public:
-    MainWindow();
+    public:
+        MainWindow();
 
-private:
-    Gtk::Box m_main_box;
-    Gtk::Box m_sidebar;
-    Gtk::Label m_sidebar_label;
-    Gtk::ScrolledWindow m_scrolled_sidebar;
-    Gtk::Stack m_stack;
+    private:
+        Gtk::Box m_main_box;
+        Gtk::Box m_sidebar;
+        Gtk::Label m_sidebar_label;
+        Gtk::ScrolledWindow m_scrolled_sidebar;
+        Gtk::Stack m_stack;
 
-    Glib::RefPtr<Gtk::SignalListItemFactory> create_list_factory();
+        Glib::RefPtr<Gtk::SignalListItemFactory> create_list_factory();
 };
 #endif

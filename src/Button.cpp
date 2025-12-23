@@ -16,7 +16,9 @@ void MyButton::pair_with(MyButton* other_button, bool disable_other)
     paired_button = other_button;
     set_sensitive(disable_other);
     if (other_button)
+    {
         other_button->paired_button = this;
+    }
 }
 
 void MyButton::on_button_clicked()
