@@ -12,16 +12,15 @@ public:
 
 private:
 	// Status Indicators
-    Gtk::DrawingArea ssh_dot_;
-	Gtk::DrawingArea esp32_dot_;
+    Gtk::DrawingArea ssh_dot;
+	Gtk::DrawingArea esp32_dot;
 
-    ConnectionStatus ssh_status_ = ConnectionStatus::DISCONNECTED;
-	ConnectionStatus esp32_status_ = ConnectionStatus::DISCONNECTED;
+    ConnectionStatus ssh_status = ConnectionStatus::DISCONNECTED;
+	ConnectionStatus esp32_status = ConnectionStatus::DISCONNECTED;
 
-	void on_state_changed(ConnectionSnapshot snapshot);
-    void setup_dot(Gtk::DrawingArea& dot);
-
-    void draw_dot(const Cairo::RefPtr<Cairo::Context>& cr, int width, int height,, ConnectionStatus status)// Callback
+	//void on_state_changed(ConnectionSnapshot snapshot);
+    void status_bar(Gtk::DrawingArea& dot, const ConnectionStatus& status);
+    Gtk::Box* make_labelled(Gtk::DrawingArea& dot, const Glib::ustring& text);
 
     // Button
     Gtk::Box m_button_box;

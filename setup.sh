@@ -9,7 +9,7 @@ echo "Starting Pi_Jarvis setup..."
 echo "Updating system and installing required packages..."
 sudo apt update
 sudo apt install -y \
-    build-essential cmake git ninja-build \
+    build-essential cmake git ninja-build pkg-config \
     libboost-all-dev libssl-dev libfmt-dev libspdlog-dev \
     libcurl4-openssl-dev libjsoncpp-dev xinput-calibrator \
     libgtk-4-dev libgtkmm-4.0-dev \

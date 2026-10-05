@@ -20,6 +20,7 @@ add_executable(test
     src/Button.cpp
     src/MainWindow.cpp
     src/DeviceWidget.cpp
+    src/LabelledWidget.cpp
     
  "src/ConnectionState.cpp" "include/ConnectionState.h")
 
